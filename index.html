@@ -17,7 +17,6 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         
         #welcomeOverlay { background: radial-gradient(circle, #1a1a2e 0%, #000 100%); position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s ease; }
-        
         #cartDrawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 450px; height: 100%; background: #0a0a0a; z-index: 9000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 3px solid #d4af37; display: flex; flex-direction: column; }
         #cartDrawer.open { right: 0; }
         
@@ -28,35 +27,26 @@
         .active-section { display: block; opacity: 1; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .qty-btn { @apply w-10 h-10 flex items-center justify-center border border-slate-600 hover:bg-gold hover:text-black transition rounded-xl font-black text-xl; }
-        .remove-btn { @apply text-red-500 hover:text-red-700 transition text-xl p-2; }
-
-        #floatingBackBtn { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 30px; 
-            z-index: 5000; 
-            display: none; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        #floatingBackBtn { position: fixed; bottom: 30px; left: 30px; z-index: 5000; display: none; }
+        input, textarea, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; width: 100%; padding: 1.25rem; border-radius: 1rem; appearance: none; }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop><source src="tunis.mp3" type="audio/mpeg"></audio>
-    <audio id="music-kids" loop><source src="a.mp3" type="audio/mpeg"></audio>
-    <audio id="music-couples" loop><source src="b.mp3" type="audio/mpeg"></audio>
-    <audio id="music-women" loop><source src="c.mp3" type="audio/mpeg"></audio>
-    <audio id="music-men" loop><source src="d.mp3" type="audio/mpeg"></audio>
+    <audio id="music-kids" loop><source src="a/a.mp3" type="audio/mpeg"></audio>
+    <audio id="music-couples" loop><source src="b/b.mp3" type="audio/mpeg"></audio>
+    <audio id="music-women" loop><source src="c/c.mp3" type="audio/mpeg"></audio>
+    <audio id="music-men" loop><source src="d/d.mp3" type="audio/mpeg"></audio>
 
-    <button id="floatingBackBtn" onclick="goBack()" class="bg-gold text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl hover:scale-110 transition active:scale-95">
-        <i class="fas fa-arrow-right"></i>
-    </button>
+    <button id="floatingBackBtn" onclick="goBack()" class="bg-gold text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition z-[9999]"><i class="fas fa-arrow-right"></i></button>
 
     <div id="welcomeOverlay">
-        <img src="logo.png" class="w-40 h-40 mb-10 floating">
-        <h1 class="text-gold text-5xl md:text-7xl font-black mb-10 ltr-fix uppercase tracking-tighter">COUKA CÉLESTE</h1>
-        <button onclick="enterSite()" class="bg-gold text-black font-black px-16 py-5 rounded-full text-2xl hover:scale-110 transition shadow-[0_0_30px_rgba(212,175,55,0.3)]">دخول الآن</button>
+        <div class="flex flex-col items-center floating text-center px-4">
+            <img src="logo.png" class="w-44 h-44 mb-6 object-contain">
+            <h1 class="text-gold text-5xl md:text-7xl font-black ltr-fix uppercase tracking-tighter">COUKA CÉLESTE</h1>
+        </div>
+        <button onclick="enterSite()" class="mt-12 bg-gold text-black font-black px-16 py-5 rounded-full text-2xl hover:scale-110 transition shadow-lg">دخول الآن</button>
     </div>
 
     <div id="cartDrawer">
@@ -64,245 +54,203 @@
             <button onclick="toggleCart()" class="text-gold text-4xl"><i class="fas fa-times"></i></button>
             <h2 class="text-2xl font-black">سلة المشتريات</h2>
         </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto p-8 space-y-6">
-            <p class="text-center text-gray-500 mt-20 text-xl italic font-bold">السلة فارغة حالياً</p>
-        </div>
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
         <div class="p-8 border-t border-white/10 bg-black">
-            <div class="flex justify-between items-center mb-8 text-3xl font-black ltr-fix">
-                <span id="cartTotal" class="text-gold">0.000 د.ت</span>
-                <span style="direction: rtl;">الإجمالي</span>
+            <div class="flex justify-between items-center mb-6 text-2xl font-black">
+                <span id="cartTotal" class="text-gold ltr-fix">0.000 د.ت</span>
+                <span>الإجمالي</span>
             </div>
-            <button onclick="sendOrder()" class="w-full bg-gold text-black py-6 rounded-2xl text-2xl font-black hover:bg-yellow-600 transition">تأكيد الطلب عبر واتساب</button>
+            <button onclick="sendOrder()" class="w-full bg-gold text-black py-5 rounded-2xl text-xl font-black hover:bg-yellow-600 transition">تأكيد الطلب (واتساب)</button>
         </div>
     </div>
 
     <nav class="fixed top-0 w-full bg-black/90 py-6 px-8 border-b border-white/10 z-[8000] backdrop-blur-md">
-        <div class="container mx-auto flex flex-row-reverse justify-between items-center">
-            <div class="text-3xl font-black ltr-fix uppercase">🔴 COUKA <span class="text-gold">CÉLESTE</span></div>
-            <div class="hidden md:flex gap-10 font-black text-lg">
-                <a href="#contact" class="hover:text-gold transition">تواصل</a>
+        <div class="container mx-auto flex justify-between items-center flex-row-reverse">
+            <div class="text-3xl font-black ltr-fix uppercase tracking-tighter">🔴 COUKA <span class="text-gold">CÉLESTE</span></div>
+            <div class="hidden md:flex flex-row gap-8 font-black text-lg">
+                <a href="#contact" class="hover:text-gold transition">تواصل معنا</a>
                 <a href="#about" class="hover:text-gold transition">من نحن</a>
-                <a href="#products" class="hover:text-gold transition" onclick="goBack()">منتجاتنا</a>
-                <a href="#home" class="hover:text-gold transition" onclick="goBack()">الرئيسية</a>
+                <a href="#products" class="hover:text-gold transition">منتجاتنا</a>
+                <a href="#home" class="hover:text-gold transition">الرئيسية</a>
             </div>
-            <button onclick="toggleCart()" class="relative text-gold text-4xl hover:scale-110 transition">
+            <button onclick="toggleCart()" class="relative text-gold text-4xl">
                 <i class="fas fa-shopping-bag"></i>
                 <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">0</span>
             </button>
         </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex items-center justify-center text-center px-4 pt-20">
+    <section id="home" class="min-h-screen flex items-center justify-center text-center px-4 pt-32">
         <div class="max-w-5xl w-full">
-            <img src="logo.png" class="w-48 mx-auto mb-10 floating">
-            <h1 class="text-6xl md:text-9xl font-black mb-6 ltr-fix uppercase tracking-tighter">COUKA <span class="text-gold">CÉLESTE</span></h1>
+            <div class="floating mb-12">
+                <img src="logo.png" class="w-32 h-32 mx-auto mb-6 object-contain">
+                <h1 class="text-6xl md:text-9xl font-black ltr-fix uppercase tracking-tighter">COUKA <span class="text-gold">CÉLESTE</span></h1>
+            </div>
             <p class="text-2xl md:text-4xl text-gold mb-16 font-bold">أناقة تليق بك... صناعة تونسية أصيلة</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <a href="#products" class="big-card p-10 flex flex-col items-center gap-4">
-                    <i class="fas fa-shopping-bag text-4xl text-gold"></i><span class="text-xl font-black">المنتجات</span>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#products" class="big-card p-8 flex items-center justify-center gap-3">
+                    <i class="fas fa-shopping-bag text-2xl text-gold"></i>
+                    <span class="font-black">المنتجات</span>
                 </a>
-                <a href="https://wa.me/21626388822" target="_blank" class="big-card p-10 flex flex-col items-center gap-4">
-                    <i class="fab fa-whatsapp text-4xl text-green-500"></i><span class="text-xl font-black">واتساب</span>
+                <a href="https://wa.me/21626388822" target="_blank" class="big-card p-8 flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-2xl text-green-500"></i>
+                    <span class="font-black">واتساب</span>
                 </a>
-                <a href="mailto:gmidenf@gmail.com" class="big-card p-10 flex flex-col items-center gap-4">
-                    <i class="fas fa-envelope text-4xl text-red-600"></i><span class="text-xl font-black">الإيميل</span>
+                <a href="mailto:gmidenf@gmail.com" class="big-card p-8 flex items-center justify-center gap-3">
+                    <i class="fas fa-envelope text-2xl text-red-600"></i>
+                    <span class="font-black">إيميل</span>
                 </a>
-                <a href="tel:+21657125779" class="big-card p-10 flex flex-col items-center gap-4">
-                    <i class="fas fa-phone text-4xl text-blue-600"></i><span class="text-xl font-black">اتصال</span>
+                <a href="tel:+21657125779" class="big-card p-8 flex items-center justify-center gap-3">
+                    <i class="fas fa-phone text-2xl text-blue-600"></i>
+                    <span class="font-black">اتصال</span>
                 </a>
             </div>
+        </div>
+    </section>
+
+    <section id="products" class="py-24 container mx-auto px-4">
+        <div id="categoryGrid" class="active-section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div onclick="openCat('men')" class="big-card cursor-pointer"><img src="d/d.png" class="w-full h-80 object-cover"><div class="p-6 text-xl font-black text-gold text-center">ملابس رجال</div></div>
+            <div onclick="openCat('women')" class="big-card cursor-pointer"><img src="c/c.png" class="w-full h-80 object-cover"><div class="p-6 text-xl font-black text-gold text-center">ملابس نساء</div></div>
+            <div onclick="openCat('couples')" class="big-card cursor-pointer"><img src="b/b.png" class="w-full h-80 object-cover"><div class="p-6 text-xl font-black text-gold text-center">بدلات الأحبة</div></div>
+            <div onclick="openCat('kids')" class="big-card cursor-pointer"><img src="a/a.png" class="w-full h-80 object-cover"><div class="p-6 text-xl font-black text-gold text-center">ملابس أطفال</div></div>
+        </div>
+        <div id="singleProductView" class="hidden-section">
+            <div class="flex justify-between items-center mb-10 flex-row-reverse"><h2 id="catTitle" class="text-3xl font-black text-gold"></h2><button onclick="goBack()" class="bg-white/10 px-6 py-2 rounded-full font-black">عودة</button></div>
+            <div id="itemsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
         </div>
     </section>
 
     <section id="about" class="py-32 bg-[#050505]">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-4xl mx-auto mb-20">
-                <h2 class="text-5xl font-black mb-10 text-gold">من نحن</h2>
-                <p class="text-2xl leading-relaxed text-gray-300 font-bold">
-                    نحن <span class="text-gold">COUKA CÉLESTE</span>، شركة تونسية متخصصة في صناعة وبيع الملابس عالية الجودة. نسعى دائماً لتقديم أفضل التصاميم العصرية التي تجمع بين الأناقة والراحة. فريقنا من المصممين والحرفيين المهرة يعملون بشغف لتلبية تطلعاتكم.
-                </p>
-                <div class="flex flex-wrap justify-center gap-6 mt-8">
-                    <span class="bg-gold/10 border border-gold text-gold px-6 py-2 rounded-full font-black text-xl">جودة مضمونة</span>
-                    <span class="bg-gold/10 border border-gold text-gold px-6 py-2 rounded-full font-black text-xl">أسعار منافسة</span>
-                </div>
+        <div class="container mx-auto px-4 text-center max-w-4xl">
+            <h2 class="text-5xl font-black mb-10 text-gold uppercase">COUKA من نحن</h2>
+            <p class="text-2xl leading-relaxed text-gray-300 font-bold mb-12 text-right">
+                نحن <span class="text-gold">COUKA CÉLESTE</span>، شركة تونسية متخصصة في صناعة وبيع الملابس عالية الجودة. نسعى دائماً لتقديم أفضل التصاميم العصرية التي تجمع بين الأناقة والراحة. فريقنا من المصممين والحرفيين المهرة يعملون بشغف لتلبية تطلعاتكم.
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-[#111] p-10 rounded-3xl border border-white/5"><div class="text-3xl text-gold font-black ltr-fix">500+</div><div class="text-gray-400 font-bold text-xs uppercase">عميل سعيد</div></div>
+                <div class="bg-[#111] p-10 rounded-3xl border border-white/5"><div class="text-3xl text-gold font-black ltr-fix">1000+</div><div class="text-gray-400 font-bold text-xs uppercase">منتج مباع</div></div>
+                <div class="bg-[#111] p-10 rounded-3xl border border-white/5"><div class="text-3xl text-gold font-black ltr-fix">50+</div><div class="text-gray-400 font-bold text-xs uppercase">تصميم حصري</div></div>
+                <div class="bg-[#111] p-10 rounded-3xl border border-white/5"><div class="text-3xl text-gold font-black ltr-fix">5⭐</div><div class="text-gray-400 font-bold text-xs uppercase">تقييم العملاء</div></div>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="big-card p-10 border-b-8 border-gold">
-                    <div class="text-4xl font-black text-gold mb-2">500+</div>
-                    <div class="text-lg font-bold">عميل سعيد</div>
-                </div>
-                <div class="big-card p-10 border-b-8 border-gold">
-                    <div class="text-4xl font-black text-gold mb-2">1000+</div>
-                    <div class="text-lg font-bold">منتج مباع</div>
-                </div>
-                <div class="big-card p-10 border-b-8 border-gold">
-                    <div class="text-4xl font-black text-gold mb-2">50+</div>
-                    <div class="text-lg font-bold">تصميم حصري</div>
-                </div>
-                <div class="big-card p-10 border-b-8 border-gold">
-                    <div class="text-4xl font-black text-gold mb-2">5⭐</div>
-                    <div class="text-lg font-bold">تقييم العملاء</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="products" class="py-32 container mx-auto px-4">
-        <div id="categoryGrid" class="active-section text-center">
-            <h2 class="text-5xl font-black mb-20 text-gold uppercase tracking-widest">تشكيلتنا الفاخرة</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                <div onclick="openCat('men')" class="big-card cursor-pointer group">
-                    <img src="d.png" class="w-full h-[450px] object-cover group-hover:scale-110 transition duration-500">
-                    <div class="p-8 text-2xl font-black text-gold">ملابس رجال</div>
-                </div>
-                <div onclick="openCat('women')" class="big-card cursor-pointer group">
-                    <img src="c.png" class="w-full h-[450px] object-cover group-hover:scale-110 transition duration-500">
-                    <div class="p-8 text-2xl font-black text-gold">ملابس نساء</div>
-                </div>
-                <div onclick="openCat('couples')" class="big-card cursor-pointer group">
-                    <img src="b.png" class="w-full h-[450px] object-cover group-hover:scale-110 transition duration-500">
-                    <div class="p-8 text-2xl font-black text-gold">بدلات الأحبة</div>
-                </div>
-                <div onclick="openCat('kids')" class="big-card cursor-pointer group">
-                    <img src="a.png" class="w-full h-[450px] object-cover group-hover:scale-110 transition duration-500">
-                    <div class="p-8 text-2xl font-black text-gold">ملابس أطفال</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="singleProductView" class="hidden-section">
-            <div class="flex justify-between items-center mb-16 border-b border-white/10 pb-8">
-                <h2 id="catTitle" class="text-4xl font-black text-gold uppercase"></h2>
-                <button onclick="goBack()" class="bg-white/10 px-10 py-4 rounded-full font-black text-xl hover:bg-gold hover:text-black transition">عودة للقائمة</button>
-            </div>
-            <div id="itemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"></div>
         </div>
     </section>
 
     <section id="contact" class="py-32 container mx-auto px-4">
         <h2 class="text-5xl font-black mb-20 text-center text-gold underline underline-offset-[20px]">تواصل معنا</h2>
         <div class="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
-            <div class="space-y-8">
-                <a href="tel:+21657125779" class="flex items-center gap-8 bg-[#111] p-10 rounded-[2.5rem] border border-white/5 hover:border-blue-600 transition group">
-                    <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-3xl"><i class="fas fa-phone"></i></div>
-                    <div><p class="text-gray-400 font-black mb-2">الهاتف</p><p class="text-3xl font-black ltr-fix text-white">+216 57 125 779</p></div>
-                </a>
-                <a href="https://wa.me/21626388822" target="_blank" class="flex items-center gap-8 bg-[#111] p-10 rounded-[2.5rem] border border-white/5 hover:border-green-500 transition group">
-                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-3xl"><i class="fab fa-whatsapp"></i></div>
-                    <div><p class="text-gray-400 font-black mb-2">واتساب</p><p class="text-3xl font-black ltr-fix text-white">+216 26 388 822</p></div>
-                </a>
-                <a href="mailto:gmidenf@gmail.com" class="flex items-center gap-8 bg-[#111] p-10 rounded-[2.5rem] border border-white/5 hover:border-red-600 transition group">
-                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-3xl"><i class="fas fa-envelope"></i></div>
-                    <div><p class="text-gray-400 font-black mb-2">الإيميل</p><p class="text-xl font-black text-white">gmidenf@gmail.com</p></div>
-                </a>
-            </div>
-            <div class="bg-[#111] p-12 rounded-[3rem] border border-white/5">
-                <div class="space-y-6">
-                    <input type="text" id="contact_name" placeholder="الاسم الكامل" class="w-full p-6 rounded-2xl bg-black border border-white/10 text-xl font-black text-white outline-none focus:border-gold">
-                    <input type="tel" id="contact_phone" placeholder="رقم الهاتف" class="w-full p-6 rounded-2xl bg-black border border-white/10 text-xl font-black text-white outline-none focus:border-gold">
-                    <textarea id="contact_message" rows="4" placeholder="كيف يمكننا مساعدتك؟" class="w-full p-6 rounded-2xl bg-black border border-white/10 text-xl font-black text-white outline-none focus:border-gold"></textarea>
-                    <button onclick="sendEmail()" class="w-full bg-gold text-black font-black py-7 rounded-2xl text-2xl hover:bg-yellow-600 transition">إرسال الرسالة</button>
+            
+            <div class="space-y-6 order-2 lg:order-1">
+                <div class="bg-[#111] p-8 rounded-[2rem] border border-white/5 flex items-center justify-start gap-6 text-right">
+                    <i class="fas fa-map-marker-alt text-3xl text-gold"></i>
+                    <div>
+                        <p class="text-gray-400 font-bold text-sm uppercase">عنوان فرنسا</p>
+                        <p class="text-xl font-black">75 Av. des Champs-Élysées, Paris</p>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="mt-20 max-w-6xl mx-auto overflow-hidden rounded-[3rem] border border-white/10 shadow-2xl">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.292292615673894!3d48.85837007928746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sfr!4v1700000000000!5m2!1sen!2sfr" 
-                width="100%" height="450" style="border:0; filter: grayscale(1) invert(1);" allowfullscreen="" loading="lazy">
-            </iframe>
+                <a href="tel:+21657125779" class="bg-[#111] p-8 rounded-[2rem] border border-white/5 flex items-center justify-start gap-6 hover:border-blue-500 transition block text-right">
+                    <i class="fas fa-phone text-3xl text-blue-500"></i>
+                    <div>
+                        <p class="text-gray-400 font-bold text-sm uppercase">الهاتف</p>
+                        <p class="text-2xl font-black ltr-fix">+216 57 125 779</p>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/21626388822" target="_blank" class="bg-[#111] p-8 rounded-[2rem] border border-white/5 flex items-center justify-start gap-6 hover:border-green-500 transition block text-right">
+                    <i class="fab fa-whatsapp text-3xl text-green-500"></i>
+                    <div>
+                        <p class="text-gray-400 font-bold text-sm uppercase">واتساب</p>
+                        <p class="text-2xl font-black ltr-fix">+216 26 388 822</p>
+                    </div>
+                </a>
+
+                <a href="mailto:gmidenf@gmail.com" class="bg-[#111] p-8 rounded-[2rem] border border-white/5 flex items-center justify-start gap-6 hover:border-red-500 transition block text-right">
+                    <i class="fas fa-envelope text-3xl text-red-500"></i>
+                    <div>
+                        <p class="text-gray-400 font-bold text-sm uppercase">الإيميل</p>
+                        <p class="text-xl font-black">gmidenf@gmail.com</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="bg-[#111] p-10 rounded-[3rem] border border-white/5 shadow-2xl order-1 lg:order-2">
+                <form onsubmit="event.preventDefault(); alert('تم استلام رسالتك!');" class="space-y-4 text-right">
+                    <input type="text" placeholder="الاسم الكامل" required>
+                    <input type="tel" placeholder="رقم الهاتف" class="ltr-fix text-right">
+                    <input type="text" placeholder="العنوان">
+                    <textarea placeholder="رسالتك" rows="3" required></textarea>
+                    <button type="submit" class="w-full bg-gold text-black font-black py-6 rounded-2xl text-2xl uppercase mt-4 hover:scale-105 transition">إرسال</button>
+                </form>
+            </div>
         </div>
     </section>
 
-    <footer class="py-20 bg-black text-center border-t border-white/10">
-        <div class="text-4xl font-black mb-8 ltr-fix uppercase tracking-[0.4em]">🔴 COUKA <span class="text-gold">CÉLESTE</span></div>
-        <p class="text-gray-500 text-lg font-black ltr-fix">© 2024 ALL RIGHTS RESERVED TO COUKA CÉLESTE</p>
+    <footer class="py-20 bg-black text-center border-t border-white/10 px-4">
+        <div class="text-3xl font-black mb-8 ltr-fix uppercase tracking-[0.3em]">COUKA <span class="text-gold">CÉLESTE</span></div>
+        <p class="text-gray-500 text-lg font-black ltr-fix italic uppercase tracking-widest text-center">© 2025 ALL RIGHTS RESERVED TO COUKA CÉLESTE</p>
     </footer>
 
     <script>
         let cart = [];
         
-        function stopAllMusic() {
-            const sounds = document.querySelectorAll('audio');
-            sounds.forEach(s => { s.pause(); s.currentTime = 0; });
-        }
-
+        // تحديث جميع المقاسات المطلوبة
         const sizeOptions = {
-            men: [
-                'اختر المقاس', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL',
-                '38 (M)', '40 (L)', '42 (XL)', '44 (XXL)', '46 (3XL)'
-            ],
-            women: [
-                'اختر المقاس', 'S', 'M', 'L', 'XL', 'XXL', '3XL',
-                '36', '38', '40', '42', '44', '46', '48'
-            ],
-            kids: [
-                'اختر المقاس', '1 سنة', '2 سنة', '3 سنوات', '4 سنوات', '6 سنوات', 
-                '8 سنوات', '10 سنوات', '12 سنة', '14 سنة'
-            ],
+            men: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'],
+            women: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'],
+            kids: ['1 سنة', '2 سنة', '4 سنوات', '6 سنوات', '8 سنوات', '10 سنوات', '12 سنة', '14 سنة', '16 سنة'],
             couples: [
-                'اختر المقاس (رجالي + نسائي)', 
-                'M + S', 'L + S', 'L + M', 'XL + M', 'XL + L', 'XXL + L', 'XXL + XL'
+                'S + S', 'S + M', 'S + L', 'S + XL', 
+                'M + S', 'M + M', 'M + L', 'M + XL', 
+                'L + S', 'L + M', 'L + L', 'L + XL', 
+                'XL + S', 'XL + M', 'XL + L', 'XL + XL',
+                'XXL + M', 'XXL + L', 'XXL + XL', 'XXL + XXL'
             ]
         };
 
         const db = {
-            men: Array.from({length: 10}, (_, i) => ({
-                id: `m${i+1}`, name: `طقم رجالي فاخر ${i+1}`, price: 120.000, img: `d${i+1}.png`
-            })),
-            women: Array.from({length: 10}, (_, i) => ({
-                id: `w${i+1}`, name: `فستان ملكي ${i+1}`, price: 150.000, img: `c${i+1}.png`
-            })),
-            couples: Array.from({length: 10}, (_, i) => ({
-                id: `cp${i+1}`, name: `بدلة أحبة ${i+1}`, price: 250.000, img: `b${i+1}.png`
-            })),
-            kids: Array.from({length: 10}, (_, i) => ({
-                id: `k${i+1}`, name: `ملابس أطفال ${i+1}`, price: 85.000, img: `a${i+1}.png`
-            }))
+            men: Array.from({length: 8}, (_, i) => ({ id: `m${i+1}`, name: `طقم رجالي راقي ${i+1}`, price: 120.0, img: `d/d${i+1}.png` })),
+            women: Array.from({length: 8}, (_, i) => ({ id: `w${i+1}`, name: `تصميم نسائي ${i+1}`, price: 150.0, img: `c/c${i+1}.png` })),
+            couples: Array.from({length: 8}, (_, i) => ({ id: `cp${i+1}`, name: `بدلة أحبة ${i+1}`, price: 250.0, img: `b/b${i+1}.png` })),
+            kids: Array.from({length: 8}, (_, i) => ({ id: `k${i+1}`, name: `ملابس أطفال ${i+1}`, price: 85.0, img: `a/a${i+1}.png` }))
         };
 
-        function enterSite() { 
-            document.getElementById('bgMusic').play().catch(e => {}); 
-            document.getElementById('welcomeOverlay').style.opacity = '0'; 
-            setTimeout(() => document.getElementById('welcomeOverlay').remove(), 800); 
-        }
+        function stopAllMusic() { document.querySelectorAll('audio').forEach(a => { a.pause(); a.currentTime = 0; }); }
+        function enterSite() { document.getElementById('bgMusic').play().catch(e=>{}); document.getElementById('welcomeOverlay').style.opacity='0'; setTimeout(()=>document.getElementById('welcomeOverlay').remove(), 800); }
         
         function openCat(key) {
             stopAllMusic();
-            const catMusic = document.getElementById(`music-${key}`);
-            if(catMusic) catMusic.play().catch(e => {});
-
-            const grid = document.getElementById('itemsGrid');
-            const title = document.getElementById('catTitle');
-            const names = {men:'ملابس رجال', women:'ملابس نساء', couples:'بدلات الأحبة', kids:'ملابس أطفال'};
-            title.innerText = names[key];
-            grid.innerHTML = '';
+            const musicMap = { men:'music-men', women:'music-women', couples:'music-couples', kids:'music-kids' };
+            if(document.getElementById(musicMap[key])) document.getElementById(musicMap[key]).play().catch(e=>{});
             
+            const grid = document.getElementById('itemsGrid');
+            const titles = {men:'ملابس رجال', women:'ملابس نساء', couples:'بدلات الأحبة', kids:'ملابس أطفال'};
+            document.getElementById('catTitle').innerText = titles[key];
+            
+            grid.innerHTML = '';
             db[key].forEach(p => {
                 grid.innerHTML += `
-                <div class="bg-[#111] p-10 rounded-[3rem] border border-white/5 text-center">
-                    <img src="${p.img}" class="w-full h-80 object-cover rounded-[2rem] mb-8 shadow-2xl">
-                    <h4 class="text-3xl font-black text-gold mb-4">${p.name}</h4>
-                    <p class="text-2xl mb-8 font-black ltr-fix text-gray-300">${p.price.toFixed(3)} د.ت</p>
-                    <select id="size-${p.id}" class="w-full bg-black border border-white/10 p-4 rounded-xl mb-8 text-xl font-black outline-none text-white focus:border-gold">
+                <div class="bg-[#111] p-8 rounded-3xl border border-white/5 text-center transition hover:border-gold/50">
+                    <img src="${p.img}" class="w-full h-64 object-cover rounded-2xl mb-6 shadow-2xl">
+                    <h4 class="text-2xl font-black text-gold mb-3">${p.name}</h4>
+                    <p class="text-xl font-black mb-6 ltr-fix text-white/80">${p.price.toFixed(3)} د.ت</p>
+                    <select id="size-${p.id}" class="w-full p-4 rounded-xl mb-6 font-bold text-center bg-black border border-white/20">
+                        <option value="">اختر المقاس</option>
                         ${sizeOptions[key].map(s => `<option value="${s}">${s}</option>`).join('')}
                     </select>
-                    <button onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.img}','size-${p.id}')" class="w-full bg-gold text-black font-black py-5 rounded-2xl text-xl hover:bg-yellow-600 transition">إضافة للسلة</button>
+                    <button onclick="addToCart('${p.id}','${p.name}',${p.price},'${p.img}','size-${p.id}')" class="w-full bg-gold text-black font-black py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition">إضافة للسلة</button>
                 </div>`;
             });
             document.getElementById('categoryGrid').classList.replace('active-section', 'hidden-section');
             document.getElementById('singleProductView').classList.replace('hidden-section', 'active-section');
             document.getElementById('floatingBackBtn').style.display = 'flex';
-            window.scrollTo({ top: document.getElementById('products').offsetTop - 100, behavior: 'smooth' });
         }
 
         function goBack() { 
-            stopAllMusic();
-            document.getElementById('bgMusic').play().catch(e => {});
-
-            document.getElementById('singleProductView').classList.replace('active-section', 'hidden-section'); 
-            document.getElementById('categoryGrid').classList.replace('hidden-section', 'active-section'); 
+            stopAllMusic(); 
+            document.getElementById('bgMusic').play().catch(e=>{});
+            document.getElementById('singleProductView').classList.replace('active-section', 'hidden-section');
+            document.getElementById('categoryGrid').classList.replace('hidden-section', 'active-section');
             document.getElementById('floatingBackBtn').style.display = 'none';
         }
 
@@ -310,68 +258,56 @@
         
         function addToCart(id, name, price, img, sizeId) {
             const size = document.getElementById(sizeId).value;
-            if(size === 'اختر المقاس' || size.includes('اختر')) {
-                alert("الرجاء اختيار المقاس أولاً");
-                return;
-            }
-            const item = cart.find(i => i.id === id && i.size === size);
-            if(item) { item.qty++; } else { cart.push({id, name, price, img, size, qty:1}); }
-            updateUI();
-            if(!document.getElementById('cartDrawer').classList.contains('open')) toggleCart();
+            if(!size) return alert("الرجاء اختيار المقاس أولاً!");
+            const existing = cart.find(i => i.id === id && i.size === size);
+            if(existing) { existing.qty++; } else { cart.push({id, name, price, img, size, qty:1}); }
+            updateUI(); toggleCart();
         }
 
-        function updateQty(idx, delta) { cart[idx].qty += delta; if(cart[idx].qty < 1) cart.splice(idx, 1); updateUI(); }
-        
-        function removeItem(idx) { cart.splice(idx, 1); updateUI(); }
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if(cart[index].qty < 1) cart.splice(index, 1);
+            updateUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateUI();
+        }
 
         function updateUI() {
             const container = document.getElementById('cartItems');
-            const totalDisplay = document.getElementById('cartTotal');
-            const countDisplay = document.getElementById('cartCount');
             container.innerHTML = ''; let total = 0; let count = 0;
-            if(cart.length === 0) { container.innerHTML = '<p class="text-center text-gray-500 mt-20 text-xl font-black">السلة فارغة</p>'; }
-            else {
-                cart.forEach((item, i) => {
-                    total += (item.price * item.qty); count += item.qty;
-                    container.innerHTML += `
-                    <div class="flex gap-6 items-center bg-[#111] p-6 rounded-[2rem] border border-white/5 relative group">
-                        <button onclick="removeItem(${i})" class="remove-btn absolute top-2 left-2"><i class="fas fa-trash-alt"></i></button>
-                        <img src="${item.img}" class="w-20 h-28 object-cover rounded-xl shadow-lg">
-                        <div class="flex-1">
-                            <h4 class="font-black text-xl text-gold mb-1">${item.name}</h4>
-                            <p class="text-sm text-gray-400 mb-2 font-bold">المقاس: ${item.size}</p>
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <button onclick="updateQty(${i},1)" class="qty-btn">+</button>
-                                    <span class="text-xl font-black">${item.qty}</span>
-                                    <button onclick="updateQty(${i},-1)" class="qty-btn">-</button>
-                                </div>
-                                <span class="text-xl font-black ltr-fix text-gold">${(item.price*item.qty).toFixed(3)}</span>
-                            </div>
+            cart.forEach((item, i) => {
+                total += (item.price * item.qty); count += item.qty;
+                container.innerHTML += `
+                <div class="flex gap-4 items-center bg-[#181818] p-4 rounded-2xl border border-white/5 text-right relative">
+                    <button onclick="removeFromCart(${i})" class="absolute top-2 left-2 text-red-500 hover:text-red-700 transition">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <img src="${item.img}" class="w-16 h-20 object-cover rounded-xl">
+                    <div class="flex-1">
+                        <h4 class="font-black text-gold text-sm">${item.name}</h4>
+                        <p class="text-[10px] text-gray-500">المقاس: ${item.size}</p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <button onclick="changeQty(${i}, -1)" class="w-8 h-8 bg-white/5 rounded-lg border border-white/10">-</button>
+                            <span class="font-black text-lg">${item.qty}</span>
+                            <button onclick="changeQty(${i}, 1)" class="w-8 h-8 bg-white/5 rounded-lg border border-white/10">+</button>
                         </div>
-                    </div>`;
-                });
-            }
-            totalDisplay.innerText = total.toFixed(3) + ' د.ت';
-            countDisplay.innerText = count;
+                    </div>
+                    <div class="font-black text-sm ltr-fix">${(item.price*item.qty).toFixed(3)}</div>
+                </div>`;
+            });
+            document.getElementById('cartTotal').innerText = total.toFixed(3) + ' د.ت';
+            document.getElementById('cartCount').innerText = count;
         }
 
         function sendOrder() {
-            if(cart.length === 0) return;
+            if(cart.length === 0) return alert("السلة فارغة!");
             let msg = "طلب جديد من COUKA CÉLESTE:%0A%0A";
-            cart.forEach(i => msg += `• *${i.name}* \n  المقاس: ${i.size} \n  الكمية: ${i.qty}%0A%0A`);
+            cart.forEach(i => msg += `• ${i.name} %0A  المقاس: ${i.size} | الكمية: ${i.qty}%0A%0A`);
             msg += `*الإجمالي: ${document.getElementById('cartTotal').innerText}*`;
             window.open(`https://wa.me/21626388822?text=${msg}`, '_blank');
-        }
-
-        function sendEmail() {
-            const name = document.getElementById('contact_name').value;
-            const phone = document.getElementById('contact_phone').value;
-            const message = document.getElementById('contact_message').value;
-            if(!name || !phone || !message) { alert("الرجاء تعبئة جميع الخانات"); return; }
-            const subject = encodeURIComponent(`رسالة من عميل: ${name}`);
-            const body = encodeURIComponent(`الاسم: ${name}\nرقم الهاتف: ${phone}\n\nالرسالة:\n${message}`);
-            window.location.href = `mailto:gmidenf@gmail.com?subject=${subject}&body=${body}`;
         }
     </script>
 </body>
