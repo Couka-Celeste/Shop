@@ -112,19 +112,19 @@
     <section id="products" class="py-24 container mx-auto px-2">
         <div id="categoryGrid" class="active-section flex flex-row flex-nowrap gap-2 md:gap-6 w-full overflow-hidden">
             <div onclick="openCat('men')" class="big-card cursor-pointer flex-1 min-w-0">
-                <img src="d/d.png" class="w-full h-40 md:h-80 object-cover">
+                <img src="d/d.png" class="w-full h-40 md:h-80 object-contain">
                 <div class="p-2 md:p-6 text-[10px] md:text-xl font-black text-gold text-center">ملابس رجال</div>
             </div>
             <div onclick="openCat('women')" class="big-card cursor-pointer flex-1 min-w-0">
-                <img src="c/c.png" class="w-full h-40 md:h-80 object-cover">
+                <img src="c/c.png" class="w-full h-40 md:h-80 object-contain">
                 <div class="p-2 md:p-6 text-[10px] md:text-xl font-black text-gold text-center">ملابس نساء</div>
             </div>
             <div onclick="openCat('couples')" class="big-card cursor-pointer flex-1 min-w-0">
-                <img src="b/b.png" class="w-full h-40 md:h-80 object-cover">
+                <img src="b/b.png" class="w-full h-40 md:h-80 object-contain">
                 <div class="p-2 md:p-6 text-[10px] md:text-xl font-black text-gold text-center">بدلات الأحبة</div>
             </div>
             <div onclick="openCat('kids')" class="big-card cursor-pointer flex-1 min-w-0">
-                <img src="a/a.png" class="w-full h-40 md:h-80 object-cover">
+                <img src="a/a.png" class="w-full h-40 md:h-80 object-contain">
                 <div class="p-2 md:p-6 text-[10px] md:text-xl font-black text-gold text-center">ملابس أطفال</div>
             </div>
         </div>
@@ -256,7 +256,7 @@ kids: ['رضيع', 'سنة', 'سنتين', '3 سنوات', '4 سنوات', '5 س
             
             grid.innerHTML = db[key].map(p => `
                 <div class="bg-[#111] p-6 rounded-3xl border border-white/5 text-center">
-                    <img src="${p.img}" class="w-full h-64 object-cover rounded-2xl mb-4">
+                    <img src="${p.img}" class="w-full h-64 object-contain rounded-2xl mb-4">
                     <h4 class="text-xl font-black text-gold">${p.name}</h4>
                     <p class="text-lg font-black mb-4 ltr-fix">${p.price.toFixed(3)} د.ت</p>
                     <select id="size-${p.id}" class="mb-4 font-bold text-center">
@@ -311,7 +311,7 @@ kids: ['رضيع', 'سنة', 'سنتين', '3 سنوات', '4 سنوات', '5 س
                 total += (item.price * item.qty); count += item.qty;
                 container.innerHTML += `
                     <div class="flex gap-4 items-center bg-[#181818] p-4 rounded-xl border border-white/5">
-                        <img src="${item.img}" class="w-12 h-16 object-cover rounded-lg">
+                        <img src="${item.img}" class="w-12 h-16 object-contain rounded-lg">
                         <div class="flex-1">
                             <h4 class="font-black text-gold text-xs">${item.name}</h4>
                             <p class="text-[10px] text-gray-400">مقاس: ${item.size}</p>
